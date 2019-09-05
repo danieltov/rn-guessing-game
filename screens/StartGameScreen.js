@@ -38,6 +38,7 @@ const StartGameScreen = props => {
     setSelectedNum(chosenNum)
     setEnteredVal('')
     setConfirmed(true)
+    Keyboard.dismiss()
   }
 
   const startGameHandler = () => {}
