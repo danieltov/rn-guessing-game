@@ -40,16 +40,60 @@ const StartGameScreen = props => {
     setConfirmed(true)
   }
 
-  let confirmedOutput
+  const startGameHandler = () => {}
 
-  if (confirmed) {
-    confirmedOutput = (
-      <Card style={{ ...styles.inputContainer, ...styles.confirmBox }}>
-        <Text>You chose:</Text>
-        <NumberContainer>{selectedNum}</NumberContainer>
-      </Card>
-    )
-  }
+  const NewGameInput = (
+    <Card style={styles.inputContainer}>
+      <Text>Select a Number</Text>
+      <Input
+        style={styles.input}
+        blurOnSubmit
+        keyboardType='number-pad'
+        maxLength={2}
+        value={enteredVal}
+        onChangeText={numInputHandler}
+      />
+      <View style={styles.buttonContainer}>
+        <View style={styles.button}>
+          <Button
+            title='Reset'
+            color={Colors.warning}
+            onPress={resetInputHandler}
+          />
+        </View>
+        <View style={styles.button}>
+          <Button
+            title='Confirm'
+            color={Colors.primary}
+            onPress={confirmInputHandler}
+          />
+        </View>
+      </View>
+    </Card>
+  )
+
+  const ConfirmOutput = (
+    <Card style={{ ...styles.inputContainer, ...styles.confirmBox }}>
+      <Text style={styles.confirmBoxText}>You chose:</Text>
+      <NumberContainer>{selectedNum}</NumberContainer>
+      <View style={styles.buttonContainer}>
+        <View style={styles.button}>
+          <Button
+            title='Go Back'
+            color={Colors.warning}
+            onPress={resetInputHandler}
+          />
+        </View>
+        <View style={styles.button}>
+          <Button
+            title='Start Game'
+            color={Colors.primary}
+            onPress={startGameHandler}
+          />
+        </View>
+      </View>
+    </Card>
+  )
 
   return (
     <TouchableWithoutFeedback
@@ -57,35 +101,8 @@ const StartGameScreen = props => {
         Keyboard.dismiss()
       }}>
       <View style={styles.screen}>
-        <Text style={styles.title}>Start a New Game</Text>
-        <Card style={styles.inputContainer}>
-          <Text>Select a Number</Text>
-          <Input
-            style={styles.input}
-            blurOnSubmit
-            keyboardType='number-pad'
-            maxLength={2}
-            value={enteredVal}
-            onChangeText={numInputHandler}
-          />
-          <View style={styles.buttonContainer}>
-            <View style={styles.button}>
-              <Button
-                title='Reset'
-                color={Colors.secondary}
-                onPress={resetInputHandler}
-              />
-            </View>
-            <View style={styles.button}>
-              <Button
-                title='Confirm'
-                color={Colors.primary}
-                onPress={confirmInputHandler}
-              />
-            </View>
-          </View>
-        </Card>
-        {confirmedOutput}
+        <Text style={styles.title}>New Game</Text>
+        {confirmed ? ConfirmOutput : NewGameInput}
       </View>
     </TouchableWithoutFeedback>
   )
@@ -107,10 +124,6 @@ const styles = StyleSheet.create({
     maxWidth: '80%',
     alignItems: 'center'
   },
-  confirmBox: {
-    backgroundColor: Colors.info,
-    marginVertical: 10
-  },
   buttonContainer: {
     flexDirection: 'row',
     width: '100%',
@@ -118,11 +131,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15
   },
   button: {
-    width: '40%'
+    width: 110
   },
   input: {
     width: 50,
     textAlign: 'center'
+  },
+  confirmBox: {
+    backgroundColor: Colors.secondary,
+    marginVertical: 10
+  },
+  confirmBoxText: {
+    color: Colors.light
   }
 })
 

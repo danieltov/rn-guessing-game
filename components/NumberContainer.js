@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     marginVertical: 10,
     padding: 10,
-    width: '80%'
+    width: 75
   },
   number: {
     fontSize: 22,
