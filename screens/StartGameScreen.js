@@ -41,8 +41,6 @@ const StartGameScreen = props => {
     Keyboard.dismiss()
   }
 
-  const startGameHandler = () => {}
-
   const NewGameInput = (
     <Card style={styles.inputContainer}>
       <Text>Select a Number</Text>
@@ -89,7 +87,7 @@ const StartGameScreen = props => {
           <Button
             title='Start Game'
             color={Colors.primary}
-            onPress={startGameHandler}
+            onPress={() => props.onStartGame(selectedNum)}
           />
         </View>
       </View>
