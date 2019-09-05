@@ -5,5 +5,5 @@ export default {
   danger: '#D90404',
   info: '#F28705',
   dark: '#292929',
-  light: '#fff'
+  light: '#fafafa'
 }
