@@ -7,7 +7,7 @@ import Header from './components/Header'
 import { StartGameScreen, GameScreen, GameOverScreen } from './screens'
 
 const fetchFonts = () => {
-  Font.loadAsync({
+  return Font.loadAsync({
     'operator-mono': require('./assets/fonts/OperatorMono-Book.otf'),
     'operator-mono-bold': require('./assets/fonts/OperatorMono-Bold.otf'),
     'operator-mono-italic': require('./assets/fonts/OperatorMono-BookItalic.otf')
