@@ -1,11 +1,12 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, StyleSheet } from 'react-native'
+import Title from './Title'
 import Colors from '../constants/colors'
 
 const Header = props => {
   return (
     <View style={styles.screen}>
-      <Text style={styles.title}>{props.title}</Text>
+      <Title style={styles.title}>{props.title}</Title>
     </View>
   )
 }
@@ -20,8 +21,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   title: {
-    color: Colors.light,
-    fontSize: 18
+    color: Colors.light
   }
 })
 

@@ -9,7 +9,8 @@ const BodyText = props => {
 
 const styles = StyleSheet.create({
   text: {
-    fontFamily: 'operator-mono'
+    fontFamily: 'operator-mono',
+    fontSize: 16
   }
 })
 

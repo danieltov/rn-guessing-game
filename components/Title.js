@@ -10,7 +10,7 @@ const Title = props => {
 const styles = StyleSheet.create({
   title: {
     fontFamily: 'operator-mono-bold',
-    fontSize: 18,
+    fontSize: 22,
     fontWeight: 'bold'
   }
 })
