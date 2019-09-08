@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
-import { View, Text, StyleSheet, Button } from 'react-native'
+import React, { useState, useRef, useEffect } from 'react'
+import { View, Text, StyleSheet, Button, Alert } from 'react-native'
 import { NumberContainer, Card } from '../components'
+import Colors from '../constants/colors'
 
 const generateNumBetween = (min, max, exclude) => {
   min = Math.ceil(min)
@@ -10,17 +11,67 @@ const generateNumBetween = (min, max, exclude) => {
 }
 
 const GameScreen = props => {
-  const [generatedNum, setGeneratedNum] = useState(
-    generateNumBetween(1, 100, props.userChoice)
+  const { userChoice, onGameOver } = props
+
+  const [currentGuess, setCurrentGuess] = useState(
+    generateNumBetween(1, 100, userChoice)
   )
+
+  const [rounds, setRounds] = useState(0)
+
+  const currentMin = useRef(1)
+  const currentMax = useRef(100)
+
+  useEffect(() => {
+    if (currentGuess === userChoice) {
+      onGameOver(rounds)
+    }
+  }, [currentGuess, userChoice, onGameOver])
+
+  const nextGuessHandler = direction => {
+    if (
+      (direction === 'lower' && currentGuess < userChoice) ||
+      (direction === 'higher' && currentGuess > userChoice)
+    ) {
+      Alert.alert(`Don't lie!`, 'You know that this is wrong...', [
+        {
+          text: 'Sorry!',
+          style: 'cancel'
+        }
+      ])
+      return
+    }
+
+    direction === 'lower'
+      ? (currentMax.current = currentGuess)
+      : (currentMin.current = currentGuess)
+
+    const nextGuess = generateNumBetween(
+      currentMin.current,
+      currentMax.current,
+      currentGuess
+    )
+
+    setCurrentGuess(nextGuess)
+    setRounds(currentRounds => currentRounds + 1)
+  }
 
   return (
     <View style={styles.screen}>
-      <Text>Computer's Guess</Text>
-      <NumberContainer>{generatedNum}</NumberContainer>
-      <Card style={styles.buttonContainer}>
-        <Button title='LOWER' onPress={() => {}} />
-        <Button title='HIGHER' onPress={() => {}} />
+      <Text style={styles.title}>Game Started!</Text>
+      <Card style={styles.container}>
+        <Text style={styles.confirmBoxText}>Computer's Guess:</Text>
+        <NumberContainer>{currentGuess}</NumberContainer>
+        <View style={styles.buttonContainer}>
+          <Button
+            title='LOWER'
+            onPress={nextGuessHandler.bind(this, 'lower')}
+          />
+          <Button
+            title='HIGHER'
+            onPress={nextGuessHandler.bind(this, 'higher')}
+          />
+        </View>
       </Card>
     </View>
   )
@@ -32,10 +83,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 10
   },
+  title: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginVertical: 10
+  },
+  container: {
+    backgroundColor: Colors.warning,
+    alignItems: 'center',
+    marginVertical: 10
+  },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginTop: 20,
     width: 300,
     maxWidth: '80%'
   }
