@@ -1,16 +1,20 @@
 import React, { useState } from 'react'
 import {
   View,
-  Text,
   StyleSheet,
-  Button,
   TouchableWithoutFeedback,
   Keyboard,
   Alert
 } from 'react-native'
 import Colors from '../constants/colors'
 
-import { Card, Input, NumberContainer } from '../components'
+import {
+  Card,
+  Input,
+  NumberContainer,
+  BodyText,
+  MainButton
+} from '../components'
 
 const StartGameScreen = props => {
   const [enteredVal, setEnteredVal] = useState('')
@@ -43,7 +47,7 @@ const StartGameScreen = props => {
 
   const NewGameInput = (
     <Card style={styles.inputContainer}>
-      <Text>Select a Number</Text>
+      <BodyText>Select a Number</BodyText>
       <Input
         style={styles.input}
         blurOnSubmit
@@ -54,18 +58,14 @@ const StartGameScreen = props => {
       />
       <View style={styles.buttonContainer}>
         <View style={styles.button}>
-          <Button
-            title='Reset'
-            color={Colors.warning}
-            onPress={resetInputHandler}
-          />
+          <MainButton color={Colors.danger} onPress={resetInputHandler}>
+            Reset
+          </MainButton>
         </View>
         <View style={styles.button}>
-          <Button
-            title='Confirm'
-            color={Colors.primary}
-            onPress={confirmInputHandler}
-          />
+          <MainButton color={Colors.secondary} onPress={confirmInputHandler}>
+            Confirm
+          </MainButton>
         </View>
       </View>
     </Card>
@@ -73,22 +73,22 @@ const StartGameScreen = props => {
 
   const ConfirmOutput = (
     <Card style={{ ...styles.inputContainer, ...styles.confirmBox }}>
-      <Text style={styles.confirmBoxText}>You chose:</Text>
+      <BodyText style={styles.confirmBoxText}>You chose:</BodyText>
       <NumberContainer>{selectedNum}</NumberContainer>
       <View style={styles.buttonContainer}>
         <View style={styles.button}>
-          <Button
-            title='Go Back'
-            color={Colors.warning}
-            onPress={resetInputHandler}
-          />
+          <MainButton
+          color={Colors.warning}
+          onPress={resetInputHandler}>
+          Go Back
+        </MainButton>
         </View>
         <View style={styles.button}>
-          <Button
-            title='Start Game'
-            color={Colors.primary}
-            onPress={() => props.onStartGame(selectedNum)}
-          />
+        <MainButton
+          color={Colors.primary}
+          onPress={() => props.onStartGame(selectedNum)}>
+          Start
+        </MainButton>
         </View>
       </View>
     </Card>
@@ -100,7 +100,7 @@ const StartGameScreen = props => {
         Keyboard.dismiss()
       }}>
       <View style={styles.screen}>
-        <Text style={styles.title}>New Game</Text>
+        <BodyText style={styles.title}>New Game</BodyText>
         {confirmed ? ConfirmOutput : NewGameInput}
       </View>
     </TouchableWithoutFeedback>
@@ -110,10 +110,11 @@ const StartGameScreen = props => {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    padding: 10,
+    padding: 30,
     alignItems: 'center'
   },
   title: {
+    fontFamily: 'operator-mono-bold',
     fontSize: 18,
     fontWeight: 'bold',
     marginVertical: 10
@@ -130,7 +131,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15
   },
   button: {
-    width: 110
+    width: '45%'
   },
   input: {
     width: 50,

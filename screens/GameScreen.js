@@ -1,6 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { View, Text, StyleSheet, Button, Alert } from 'react-native'
-import { NumberContainer, Card } from '../components'
+import { View, StyleSheet, Button, Alert } from 'react-native'
+import {
+  NumberContainer,
+  Card,
+  BodyText,
+  Title,
+  MainButton
+} from '../components'
 import Colors from '../constants/colors'
 
 const generateNumBetween = (min, max, exclude) => {
@@ -58,19 +64,17 @@ const GameScreen = props => {
 
   return (
     <View style={styles.screen}>
-      <Text style={styles.title}>Game Started!</Text>
+      <Title>Game Started!</Title>
       <Card style={styles.container}>
-        <Text style={styles.confirmBoxText}>Computer's Guess:</Text>
+        <BodyText style={styles.confirmBoxText}>Computer's Guess:</BodyText>
         <NumberContainer>{currentGuess}</NumberContainer>
         <View style={styles.buttonContainer}>
-          <Button
-            title='LOWER'
-            onPress={nextGuessHandler.bind(this, 'lower')}
-          />
-          <Button
-            title='HIGHER'
-            onPress={nextGuessHandler.bind(this, 'higher')}
-          />
+          <MainButton onPress={nextGuessHandler.bind(this, 'lower')}>
+            LOWER
+          </MainButton>
+          <MainButton onPress={nextGuessHandler.bind(this, 'higher')}>
+            HIGHER
+          </MainButton>
         </View>
       </Card>
     </View>
@@ -81,12 +85,7 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     alignItems: 'center',
-    padding: 10
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginVertical: 10
+    padding: 30
   },
   container: {
     backgroundColor: Colors.warning,

@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, StyleSheet, Button, Image } from 'react-native'
-import { BodyText, Title } from '../components'
+import { BodyText, Title, MainButton } from '../components'
+import Colors from '../constants/colors'
 
 const GameOverScreen = props => {
   return (
@@ -18,7 +19,7 @@ const GameOverScreen = props => {
       </View>
       <BodyText>The number was: {props.userNum}</BodyText>
       <BodyText>Computer guessed in: {props.guesses} rounds</BodyText>
-      <Button onPress={props.onNewGame} title='Play Again?' />
+      <MainButton onPress={props.onNewGame} color={Colors.primary} style={{fontSize: 20, marginTop: 10}}>Play Again?</MainButton>
     </View>
   )
 }
