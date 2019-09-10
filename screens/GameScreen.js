@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { View, StyleSheet, Button, Alert } from 'react-native'
+import { View, StyleSheet, Alert, FlatList } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import {
   NumberContainer,
@@ -17,21 +17,29 @@ const generateNumBetween = (min, max, exclude) => {
   return guess === exclude ? generateNumBetween(min, max, exclude) : guess
 }
 
+const renderListItem = (listLen, item) => {
+  return (
+    <View key={item.index} style={styles.listItem}>
+      <BodyText style={styles.listText}>
+        Round No.{listLen - item.index}:
+      </BodyText>
+      <BodyText style={styles.listText}>{item.item}</BodyText>
+    </View>
+  )
+}
+
 const GameScreen = props => {
   const { userChoice, onGameOver } = props
+  const firstGuess = generateNumBetween(1, 100, userChoice)
+  const [currentGuess, setCurrentGuess] = useState(firstGuess)
 
-  const [currentGuess, setCurrentGuess] = useState(
-    generateNumBetween(1, 100, userChoice)
-  )
-
-  const [rounds, setRounds] = useState(0)
+  const [pastGuesses, setPastGuesses] = useState([firstGuess.toString()])
 
   const currentMin = useRef(1)
   const currentMax = useRef(100)
-
   useEffect(() => {
     if (currentGuess === userChoice) {
-      onGameOver(rounds)
+      onGameOver(pastGuesses.length)
     }
   }, [currentGuess, userChoice, onGameOver])
 
@@ -51,7 +59,7 @@ const GameScreen = props => {
 
     direction === 'lower'
       ? (currentMax.current = currentGuess)
-      : (currentMin.current = currentGuess)
+      : (currentMin.current = currentGuess + 1)
 
     const nextGuess = generateNumBetween(
       currentMin.current,
@@ -60,7 +68,7 @@ const GameScreen = props => {
     )
 
     setCurrentGuess(nextGuess)
-    setRounds(currentRounds => currentRounds + 1)
+    setPastGuesses(pastGuesses => [nextGuess.toString(), ...pastGuesses])
   }
 
   return (
@@ -78,6 +86,14 @@ const GameScreen = props => {
           </MainButton>
         </View>
       </Card>
+      <View style={styles.listContainer}>
+        <FlatList
+          data={pastGuesses}
+          keyExtractor={item => item}
+          renderItem={renderListItem.bind(this, pastGuesses.length)}
+          contentContainerStyle={styles.list}
+        />
+      </View>
     </View>
   )
 }
@@ -98,6 +114,28 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     width: 300,
     maxWidth: '80%'
+  },
+  listContainer: {
+    width: '80%',
+    flex: 1
+  },
+  list: {
+    flexGrow: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-end'
+  },
+  listItem: {
+    borderBottomWidth: 5,
+    borderBottomColor: Colors.dark,
+    backgroundColor: Colors.primary,
+    padding: 10,
+    marginVertical: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '75%'
+  },
+  listText: {
+    color: Colors.light
   }
 })
 
