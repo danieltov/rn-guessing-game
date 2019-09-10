@@ -1,8 +1,7 @@
 import React from 'react'
-import { View, StyleSheet, Button, Image } from 'react-native'
+import { View, StyleSheet, Text, Image } from 'react-native'
 import { BodyText, Title, MainButton } from '../components'
 import Colors from '../constants/colors'
-
 const GameOverScreen = props => {
   return (
     <View style={styles.screen}>
@@ -17,9 +16,19 @@ const GameOverScreen = props => {
           style={styles.image}
         />
       </View>
-      <BodyText>The number was: {props.userNum}</BodyText>
-      <BodyText>Computer guessed in: {props.guesses} rounds</BodyText>
-      <MainButton onPress={props.onNewGame} color={Colors.primary} style={{fontSize: 20, marginTop: 10}}>Play Again?</MainButton>
+      <View style={styles.resultContainer}>
+        <BodyText style={styles.resultText}>
+          Your number was <Text style={styles.highlight}>{props.userNum}</Text>.
+          Siri guessed it in{' '}
+          <Text style={styles.highlight}>{props.guesses}</Text> tries.
+        </BodyText>
+      </View>
+      <MainButton
+        onPress={props.onNewGame}
+        color={Colors.primary}
+        style={{ fontSize: 20, marginTop: 10 }}>
+        Play Again?
+      </MainButton>
     </View>
   )
 }
@@ -37,9 +46,21 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     marginVertical: 10
   },
+  resultContainer: {
+    marginHorizontal: 30,
+    marginVertical: 15
+  },
   image: {
     width: '100%',
     height: '100%'
+  },
+  resultText: {
+    textAlign: 'center',
+    fontSize: 18
+  },
+  highlight: {
+    fontFamily: 'operator-mono-bold',
+    color: Colors.primary
   }
 })
 
